@@ -1,0 +1,10 @@
+# Site settings
+title: damemo
+email: dameleon@gmail.com
+description: "dameleon 先生の素敵なメモ"
+baseurl: "http://dameleon.github.io"
+url: "http://dameleon.github.io"
+
+# Build settings
+markdown: kramdown
+permalink: pretty
