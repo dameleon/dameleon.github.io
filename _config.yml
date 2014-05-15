@@ -4,6 +4,8 @@ email: dameleon@gmail.com
 description: "dameleon 先生の素敵なメモ"
 baseurl: "http://dameleon.github.io"
 url: "http://dameleon.github.io"
+username_github: dameleon
+username_twitter: damele0n
 
 # Build settings
 markdown: kramdown
