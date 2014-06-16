@@ -24,31 +24,25 @@ C と一緒。以上。
 
 C の include を拡張した import を使う。
 
-```
-#import <Foundation/NSObject.h>
-#import "MyViewController.h"
-```
+    #import <Foundation/NSObject.h>
+    #import "MyViewController.h"
 
 クラス名のみ使いたい場合(ヘッダファイルなどで実装がいらない時)は @class 構文で使用する ClassName を宣言できる。
 
-```
-@class MyClassName
-```
+    @class MyClassName
 
 
 ### 1-1-5 クラスの宣言 (P.21)
 
 クラスの宣言はヘッダファイルに記述する。 @interface と @end の間には、プロパティ宣言とメソッド宣言を記述できる。
 
-```
-@interface ClassName : ParentClassName
-
-// プロパティ宣言
-
-// メソッド宣言
-
-@end
-```
+    @interface ClassName : ParentClassName
+    
+    // プロパティ宣言
+    
+    // メソッド宣言
+    
+    @end
 
 **注意**
 
@@ -69,21 +63,19 @@ NSObject 。何でもかんでも NSObject 。ミミズだってオケラだっ�
 
 #### 基本的な宣言のやり方
 
-```
-//// 基本
-- (戻り値の型)メソッド名
-
-//// インスタンスメソッドとクラスメソッド
-// インスタンスメソッドは "-" で宣言
-- (int)doSomething
-// クラスメソッドは "+" で宣言
-+ (int)doSomething
-
-//// 引数有りのメソッド
-- (戻り値の型)メソッド名:(引数の型)引数名
-// 複数の引数を持つ場合はラベル名を指定する
-- (戻り値の型)メソッド名:(引数の型)引数名 ラベル:(引数の型)引数名 ラベル:(引数の型)引数名
-```
+    //// 基本
+    - (戻り値の型)メソッド名
+    
+    //// インスタンスメソッドとクラスメソッド
+    // インスタンスメソッドは "-" で宣言
+    - (int)doSomething
+    // クラスメソッドは "+" で宣言
+    + (int)doSomething
+    
+    //// 引数有りのメソッド
+    - (戻り値の型)メソッド名:(引数の型)引数名
+    // 複数の引数を持つ場合はラベル名を指定する
+    - (戻り値の型)メソッド名:(引数の型)引数名 ラベル:(引数の型)引数名 ラベル:(引数の型)引数名
 
 #### コンストラクタの宣言
 
@@ -101,14 +93,12 @@ Objective-C にはメソッドのスコープを指定するための機能が�
 
 Objective-C はプロパティというインスタンス変数を外部に公開するための仕組みが用意されている。プロパティは getter, setter のアクセサを自動生成し、インスタンス変数として利用するために "_" を接頭辞とした名前を自動で宣言する。
 
-```
-@interface Hoge : NSObject
-
-// プロパティの宣言
-@property (nonatomic, strong) NSString *value;
-
-@end
-```
+    @interface Hoge : NSObject
+    
+    // プロパティの宣言
+    @property (nonatomic, strong) NSString *value;
+    
+    @end
 
 @property 構文のあとの括弧内はオプションとなっており、下記が設定できる。
 
@@ -133,18 +123,16 @@ Objective-C はプロパティというインスタンス変数を外部に公�
 
 ここまでの内容をまとめると
 
-```
-@interface Point : NSObject
-
-// プロパティ宣言
-@property (nonatomic) int value;
-// クラスメソッド宣言
-+ (id)pointWithX: (int)x withY:(int)y;
-// コンストラクタ宣言
-- (id)initWithX: (int)x withY:(int)y;
-// メソッド宣言
-- (int)add: (int)num1 withNum:(int)num2
-```
+    @interface Point : NSObject
+    
+    // プロパティ宣言
+    @property (nonatomic) int value;
+    // クラスメソッド宣言
+    + (id)pointWithX: (int)x withY:(int)y;
+    // コンストラクタ宣言
+    - (id)initWithX: (int)x withY:(int)y;
+    // メソッド宣言
+    - (int)add: (int)num1 withNum:(int)num2
 
 何か、本だとクラスメソッド宣言とコンストラクタ宣言のところが withY(int)y ってなってたけど間違いなのかな…？間違いだよね…？
 
@@ -156,14 +144,12 @@ Objective-C はプロパティというインスタンス変数を外部に公�
 - クラスの方を明示的に指定する方法
 - id 型を使用する方法
 
-```
-// クラスを明示的に指定する
-NSString *hoge1;
-NSArray *piyo1;
-// id 型を使用する方法
-id hoge2;
-id piyo2;
-```
+    // クラスを明示的に指定する
+    NSString *hoge1;
+    NSArray *piyo1;
+    // id 型を使用する方法
+    id hoge2;
+    id piyo2;
 
 クラスの方を明示的に指定する場合は、変数をポインタ変数として定義すること。
 
@@ -172,22 +158,18 @@ id piyo2;
 
 Objective-C の文字列は NSString クラスのオブジェクトとして扱われる。ダブルクォーテーションで囲み、先頭に @ を付ける。
 
-```
-NSString *hoge = @"!!!!!!!! hell world !!!!!!!!";
-```
+    NSString *hoge = @"!!!!!!!! hell world !!!!!!!!";
 
 
 ### 1-1-12 メソッドの呼び方 (P.26)
 
 Objective-C でオブジェクトのメソッドを呼び出す場合は、オブジェクトとメソッドを [, ] で囲む。
 
-```
-// 引数無しのメソッド
-[オブジェクト メソッド]
-// 引数有りのメソッド
-[オブジェクト メソッド:引数];
-[オブジェクト メソッド:引数 ラベル:引数];
-```
+    // 引数無しのメソッド
+    [オブジェクト メソッド]
+    // 引数有りのメソッド
+    [オブジェクト メソッド:引数];
+    [オブジェクト メソッド:引数 ラベル:引数];
 
 
 ### 1-1-13 プロパティへのアクセス (P.27)
