@@ -2,7 +2,7 @@
 layout: post
 title:  "iOSの勉強をやり直す"
 date:   2014-06-17 02:00:00
-categories: ios objc
+categories: ios 
 ---
 
 1年前に買ったまま、ちょっとしたアプリを作ったり mixi さんのアレをやったくらいで終わった僕の iOS 知識を基礎の基礎から再び満たすために下記の写経をするのです。
@@ -24,14 +24,14 @@ C と一緒。以上。
 
 C の include を拡張した import を使う。
 
-```objc
+```
 #import <Foundation/NSObject.h>
 #import "MyViewController.h"
 ```
 
 クラス名のみ使いたい場合(ヘッダファイルなどで実装がいらない時)は @class 構文で使用する ClassName を宣言できる。
 
-```objc
+```
 @class MyClassName
 ```
 
@@ -40,7 +40,7 @@ C の include を拡張した import を使う。
 
 クラスの宣言はヘッダファイルに記述する。 @interface と @end の間には、プロパティ宣言とメソッド宣言を記述できる。
 
-```objc
+```
 @interface ClassName : ParentClassName
 
 // プロパティ宣言
@@ -69,7 +69,7 @@ NSObject 。何でもかんでも NSObject 。ミミズだってオケラだっ�
 
 #### 基本的な宣言のやり方
 
-```objc
+```
 //// 基本
 - (戻り値の型)メソッド名
 
@@ -101,7 +101,7 @@ Objective-C にはメソッドのスコープを指定するための機能が�
 
 Objective-C はプロパティというインスタンス変数を外部に公開するための仕組みが用意されている。プロパティは getter, setter のアクセサを自動生成し、インスタンス変数として利用するために "_" を接頭辞とした名前を自動で宣言する。
 
-```objc
+```
 @interface Hoge : NSObject
 
 // プロパティの宣言
@@ -133,7 +133,7 @@ Objective-C はプロパティというインスタンス変数を外部に公�
 
 ここまでの内容をまとめると
 
-```objc
+```
 @interface Point : NSObject
 
 // プロパティ宣言
@@ -156,7 +156,7 @@ Objective-C はプロパティというインスタンス変数を外部に公�
 - クラスの方を明示的に指定する方法
 - id 型を使用する方法
 
-```objc
+```
 // クラスを明示的に指定する
 NSString *hoge1;
 NSArray *piyo1;
@@ -172,7 +172,7 @@ id piyo2;
 
 Objective-C の文字列は NSString クラスのオブジェクトとして扱われる。ダブルクォーテーションで囲み、先頭に @ を付ける。
 
-```objc
+```
 NSString *hoge = @"!!!!!!!! hell world !!!!!!!!";
 ```
 
@@ -181,7 +181,7 @@ NSString *hoge = @"!!!!!!!! hell world !!!!!!!!";
 
 Objective-C でオブジェクトのメソッドを呼び出す場合は、オブジェクトとメソッドを [, ] で囲む。
 
-```objc
+```
 // 引数無しのメソッド
 [オブジェクト メソッド]
 // 引数有りのメソッド
