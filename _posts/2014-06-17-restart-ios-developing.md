@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "iOSの勉強をやり直す"
-date:   2014-06-05 23:55:00
+date:   2014-06-17 02:00:00
 categories: ios objc
 ---
 
