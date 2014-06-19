@@ -177,15 +177,259 @@ Objective-C でオブジェクトのメソッドを呼び出す場合は、オ�
 "." です。
 
 
-### 1-1-14 self (P.28)
+### 1-1-14 self (P.27)
 
 インスタンスメソッド内で実行中のオブジェクトを表すのは `self`
 
 
-### 1-1-15 super (P.28)
+### 1-1-15 super (P.27)
 
 親クラスに定義されてるメソッドやインスタンス変数、プロパティにアクセスする場合は `super`
 
+
+### 1-1-16 オブジェクト（インスタンスの生成）(P.28)
+
+alloc と init(WithHoge) メソッドを使う。前述のとおり、コンストラクタという機能は存在しないので、 init をイディオムとして使う。
+
+    // 引数なし
+    HogeClass *hoge = [[HogeClass alloc] init];
+    // 引数あり
+    HogeClass *hoge = [[HogeClass alloc] initWithName:@"hoge"];
+
+
+### 1-1-17 クラスの実装 (P.28)
+
+`@implementation` と `@end` の間に定義を書く。インスタンス変数は、`@implementation {  }` のカギ括弧内に書く。 
+
+    @implementation HogeClass {
+        // ここにインスタンス変数   
+    }
+    // ここにメソッド
+    @end
+
+### 1-1-18 メソッドの実装 (P.28)
+
+    -(戻り値の型)メソッド名:(引数の型)引数1 ラベル:(引数の型)引数2
+    {
+        return 戻り値;   
+    }
+
+### 1-1-19 コンストラクタの実装 (P.29)
+
+何かコンストラクタの実装って項目いっぱいあるけど恨みでもあるのか。
+
+    -(id)init
+    {
+        self = [super init];   
+        if (self) {
+            // 初期化のコード 
+        }
+        return self;
+    }
+
+if (self) ってしてる理由はなんだろ。取れないこともあるの？
+
+
+### 1-1-20 デストラクタの実装 (P.29)
+
+参照カウントが0になった時に呼ばれるメソッド。プロパティやインスタンス変数の開放処理などを行う。NSObject クラスに定義されてる dealloc メソッドがデストラクタ。
+
+    -(void)dealloc
+    {
+        // このへんに開放処理
+        [super dealloc]; // ARC 環境の場合は必要ない
+    }
+
+
+### 1-1-21 インスタンス変数の宣言 (P.30)
+
+インスタンス変数はヘッダファイルに宣言することもできるが、最近は実装ファイルに宣言するのが主流。(最近とは) Objective-C では、インスタンス変数には接頭辞として "_" を付けるのがイディオム。(プロパティ宣言した時も勝手につくし)
+
+Objective-C では宣言と初期化を同時に行うことはできない。コンストラクタの中で行う。
+
+スコープが設定でき、以下の3種類
+
+- `@public` : どこからでもアクセスできる。が、原則使用禁止でプロパティを使うべきとのこと。
+- `@protected` : そのクラス、もしくはサブクラス(そのクラスを間接的もしくは直接的にスーパークラスとしているクラス)からアクセスできる。無指定の場合はこれ。
+- `@private` : そのクラス内のみ。
+
+    @implementation HogeClass {
+        NSString *_hoge;
+        // 下記はコンパイルエラー
+        NSString *_hoge = @"moge";
+    
+        // スコープの設定
+        @protected
+            NSString *_hoge;
+        @private
+            NSString *_hoge;
+    }
+    
+    -(id)test
+    {
+        self = [super init];    
+        if (self) {
+            // 初期化
+            _hoge = @"hoge";
+        }
+        return self;
+    }
+
+
+### 1-1-22 プロトコル (P.31)
+
+プロトコルはオブジェクトの振る舞いを規定するための仕組み。Java や C# におけるインターフェースの元になった仕組みだそうです。
+
+    @protocol
+    メソッド宣言;
+    
+    // @optional 以下は実装してもしなくてもいいメソッド
+    @optional
+    メソッド宣言;
+    
+    @end
+
+プロトコルの適用、導入はクラス宣言時に行う。
+
+    @interface クラス名:親クラス名 <プロトコル1, プロトコル2>
+    @end
+
+プロトコルは複数指定することができる。実際の例は以下
+
+    @protocol Comparable
+    -(int)compareTo:(id)o;
+    @optional
+    -(int)hoge;
+    @end
+    
+    @interface Hoge:NSObject <Comparable>
+    // ここでメソッドを宣言する必要はない
+    @end
+    
+    @implementation Hoge
+    
+    -(int)compareTo:(id)o
+    {
+        // 処理   
+    }
+
+
+### 1-1-23 例外 (P.31)
+
+Objective-C には例外の仕組みが用意されている。実行時例外と NSError クラスを使う2つのパターンが有る。
+
+#### 実行時例外
+
+    -(void)hoge
+    {
+        @try {
+            // 通常処理
+        } @catch (NSException *e) {
+            // 例外処理
+        } @finally {
+            // 最終処理 
+        }    
+    }
+
+    // 例外を throw する
+    if (isSomeError) {
+        NSException *exception = [NSException exceptionWithName:@"Exception" reason:@"Reason" userInfo:nil];
+        @throw exception;
+    }
+
+
+#### 検査例外の代わりに使う NSError
+
+エラーの発生する可能性のあるメソッドに NSError オブジェクトを参照渡ししてエラーの検査を行う
+
+    // メソッド定義
+    -(BOOL)setCategory: (NSString*)category error:(NSError**)outError
+    {
+        if (isError) {
+            *outError = [NSError errorWithDomain:@"ドメイン" code:-1 userInfo:nil];    
+            return NO;
+        }   
+        return YES;
+    }
+    
+    // 使ってみる
+    AVAudioSession = *audioSession = [AVAudioSession sharedInstance];
+    NSError *error = nil;
+    
+    [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord error:&error];
+    
+    if (error) {
+        // エラー処理 
+    }
+
+### 1-1-24 カテゴリ (P.34)
+
+Objective-C にはカテゴリと呼ばれる、クラスに動的にメソッドを追加することが出来る仕組みがある。要はクラス拡張です。
+
+    // NSString を拡張してみるテスト
+    
+    // Hoge はカテゴリ名
+    @interface NSString (Hoge)
+    - (BOOL)isNilOrEmoty;
+    @end
+    
+    @implementation NSString (Hoge)
+    -(BOOL)isNilOrEmoty
+    {
+        // 処理   
+    }
+    @end
+
+### 1-1-25 セレクタ (P.34)
+
+Objective-C にはセレクタと呼ばれるC言語の関数ポインタやC#のデリゲートに似た仕組みがある。セレクタの指定には `@selector` を使う。
+
+    -(void)viewDidLoad
+    {
+        UIButton *button = [UIButton buttonWithType=UIButtonTypeRoundedRect];   
+        // ボタンクリック時に呼び出されるメソッドの指定
+        [button addTarget: self
+                   action: @selector(buttonClick)
+         forControlEvents: UIControlEventTouchDown];
+    }
+
+    -(void)buttonClick
+    {
+        // ボタンがクリックされた時の処理    
+    }
+
+
+### 1-1-26 コレクション (P.35)
+
+省略。
+
+
+### 1-1-27 数値オブジェクト (P.37)
+
+Obj-C では NSNumber クラスを使って int, long, float, BOOL などの各型をオブジェクトとして扱う。
+
+```
+NSNumber *num = @9;
+NSNumber *numUnsigned = @9U;
+NSNumber *numLong = @9L;
+NSNumber *numLongLong = @9LL;
+
+NSNumber *numFloat = @9.123456789;
+NSNumber *numDouble = @9.123456789l;
+
+NSNumber *numYes = @YES;
+NSNumber *numNo = @NO;
+```
+
+### 1-1-28 名前空間は存在しない (P.37)
+
+そして神は第七の日に「グループ名を単語で区切ったの頭文字を大文字で先頭につければよくね」と仰り NS (NextStep) を創造されました。
+
+
+### 1-1-29 プログラムのエントリーポイント
+
+main です。
+
 --------------------------------
 
-眠いのでここまで @ 2014/06/17 02:00
+疲れたのでここまで @ 2014/06/19 23:13
