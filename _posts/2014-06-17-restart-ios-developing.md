@@ -408,18 +408,17 @@ Objective-C にはセレクタと呼ばれるC言語の関数ポインタやC#�
 
 Obj-C では NSNumber クラスを使って int, long, float, BOOL などの各型をオブジェクトとして扱う。
 
-```
-NSNumber *num = @9;
-NSNumber *numUnsigned = @9U;
-NSNumber *numLong = @9L;
-NSNumber *numLongLong = @9LL;
+    NSNumber *num = @9;
+    NSNumber *numUnsigned = @9U;
+    NSNumber *numLong = @9L;
+    NSNumber *numLongLong = @9LL;
+    
+    NSNumber *numFloat = @9.123456789;
+    NSNumber *numDouble = @9.123456789l;
+    
+    NSNumber *numYes = @YES;
+    NSNumber *numNo = @NO;
 
-NSNumber *numFloat = @9.123456789;
-NSNumber *numDouble = @9.123456789l;
-
-NSNumber *numYes = @YES;
-NSNumber *numNo = @NO;
-```
 
 ### 1-1-28 名前空間は存在しない (P.37)
 
