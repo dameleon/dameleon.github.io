@@ -429,6 +429,68 @@ Obj-C では NSNumber クラスを使って int, long, float, BOOL などの各�
 
 main です。
 
+
+--------------------------------
+
+ぶっとんで P.111 から
+
+### 2-1-10 UIViewController クラス
+
+UIViewController の役割は以下
+
+- ビューを管理する機能
+
+    そのビューの一番上位の UIView オブジェクトを `view` プロパティとして保持し、管理する。また各種ライフサイクルによって呼び出されるイベントメソッドがある。
+
+- 他のビューコントローラに遷移させる機能
+
+    ストーリーボードに定義されているセグエ (segue) を参照して、他のビューコントローラに制御を移す。
+
+    セグエには
+
+    - Modal
+    - Push
+    - Custom
+
+    の3つが存在する。
+
+    セグエは遷移時のアニメーションを設定することができる。
+
+
+### 2-1-11 ビューコントローラの種類
+
+#### 表示支援系
+
+- UITableViewController
+
+    テーブルビューを表示するための機能を提供するクラス。 UITableView と組み合わせて使う。
+
+- UICollectionViewController
+
+    コレクションビューを表示するための機能を提供するクラス。 UICollectionView と組み合わせて使う。
+
+
+#### 画面遷移支援系
+
+- UINavigationController
+
+    ナビゲーションを使った画面遷移の機能を提供してくれるクラス。
+
+- UISplitViewController
+
+    スプリットを使った画面遷移の機能を提供してくれるクラス。
+
+- UITabBarController
+
+    タブを使った画面遷移の機能を提供してくれるクラス。
+
+- UIPageViewController
+
+    ページめくりを使った画面遷移の機能を提供してくれるクラス。
+
+
+UIViewController, UITableViewController, UICollectionViewController はクラスを継承して使用する。
+
 --------------------------------
 
 疲れたのでここまで @ 2014/06/19 23:13
