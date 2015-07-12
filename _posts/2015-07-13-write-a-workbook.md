@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "死んでしまった2015年前半と脳の衰え"
+title:  "死んでしまった2015年前半と脳の衰え対策"
 date:   2015-07-13 01:30:00
 categories: diary
 ---
